@@ -5,6 +5,7 @@ const (
 	TAG_AND = "tag_and"
 	ALIAS   = "alias"
 	ID      = "registration_id"
+	FILE_ID = "file_id"
 )
 
 type Audience struct {
@@ -30,6 +31,10 @@ func (this *Audience) SetTagAnd(tags []string) {
 
 func (this *Audience) SetAlias(alias []string) {
 	this.set(ALIAS, alias)
+}
+
+func (this *Audience) SetFile(fileID string) {
+	this.set(FILE_ID, fileID)
 }
 
 func (this *Audience) set(key string, v []string) {
