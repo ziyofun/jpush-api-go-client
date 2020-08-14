@@ -34,7 +34,11 @@ func (this *Audience) SetAlias(alias []string) {
 }
 
 func (this *Audience) SetFile(fileID string) {
-	this.set(FILE_ID, fileID)
+	this.Object = map[string]interface{}{
+		"file": map[string]string{
+			"file_id": fileID,
+		},
+	}
 }
 
 func (this *Audience) set(key string, v []string) {
