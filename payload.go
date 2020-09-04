@@ -9,6 +9,7 @@ type PayLoad struct {
 	Audience     interface{} `json:"audience"`
 	Notification interface{} `json:"notification,omitempty"`
 	Message      interface{} `json:"message,omitempty"`
+	Thirdpart    interface{} `json:"notification_3rd,omitempty"`
 	Options      *Option     `json:"options,omitempty"`
 }
 
@@ -34,6 +35,10 @@ func (this *PayLoad) SetOptions(o *Option) {
 
 func (this *PayLoad) SetMessage(m *Message) {
 	this.Message = m
+}
+
+func (this *PayLoad) SetThirdpart(t *Thirdpart) {
+	this.Thirdpart = t
 }
 
 func (this *PayLoad) SetNotice(notice *Notice) {
