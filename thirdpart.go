@@ -16,7 +16,7 @@ package jpushclient
 // }
 
 type Thirdpart struct {
-	Content     string                 `json:"msg_content"`
+	Content     string                 `json:"content"`
 	Title       string                 `json:"title,omitempty"`
 	ChannelID   string                 `json:"channel_id,omitempty"`
 	URIActivity string                 `json:"uri_activity,omitempty"`
