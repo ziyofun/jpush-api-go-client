@@ -8,11 +8,13 @@ type Notice struct {
 }
 
 type AndroidNotice struct {
-	Alert     string                 `json:"alert"`
-	Title     string                 `json:"title,omitempty"`
-	BuilderID int                    `json:"builder_id,omitempty"`
-	Intent    map[string]string      `json:"intent,omitempty"`
-	Extras    map[string]interface{} `json:"extras,omitempty"`
+	Alert       string                 `json:"alert"`
+	Title       string                 `json:"title,omitempty"`
+	BuilderID   int                    `json:"builder_id,omitempty"`
+	Intent      map[string]string      `json:"intent,omitempty"`
+	URIActivity string                 `json:"uri_activity,omitempty"`
+	URIAction   string                 `json:"uri_action,omitempty"`
+	Extras      map[string]interface{} `json:"extras,omitempty"`
 }
 
 type IOSNotice struct {
