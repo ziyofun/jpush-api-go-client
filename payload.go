@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 )
 
+// PayLoad 整个推送体
 type PayLoad struct {
 	Platform     interface{} `json:"platform"`
 	Audience     interface{} `json:"audience"`
@@ -13,6 +14,7 @@ type PayLoad struct {
 	Options      *Option     `json:"options,omitempty"`
 }
 
+// NewPushPayLoad 创建一个新推送体
 func NewPushPayLoad() *PayLoad {
 	pl := &PayLoad{}
 	o := &Option{}
@@ -21,32 +23,39 @@ func NewPushPayLoad() *PayLoad {
 	return pl
 }
 
-func (this *PayLoad) SetPlatform(pf *Platform) {
-	this.Platform = pf.Os
+// SetPlatform 设定推送平台
+func (py *PayLoad) SetPlatform(pf *Platform) {
+	py.Platform = pf.Os
 }
 
-func (this *PayLoad) SetAudience(ad *Audience) {
-	this.Audience = ad.Object
+// SetAudience 设定推送受众
+func (py *PayLoad) SetAudience(ad *Audience) {
+	py.Audience = ad.Object
 }
 
-func (this *PayLoad) SetOptions(o *Option) {
-	this.Options = o
+// SetOptions 设定推送配置项
+func (py *PayLoad) SetOptions(o *Option) {
+	py.Options = o
 }
 
-func (this *PayLoad) SetMessage(m *Message) {
-	this.Message = m
+// SetMessage 设定消息
+func (py *PayLoad) SetMessage(m *Message) {
+	py.Message = m
 }
 
-func (this *PayLoad) SetThirdpart(t *Thirdpart) {
-	this.Thirdpart = t
+// SetThirdpart 设定厂商推送
+func (py *PayLoad) SetThirdpart(t *Thirdpart) {
+	py.Thirdpart = t
 }
 
-func (this *PayLoad) SetNotice(notice *Notice) {
-	this.Notification = notice
+// SetNotice 设定通知内容
+func (py *PayLoad) SetNotice(notice *Notice) {
+	py.Notification = notice
 }
 
-func (this *PayLoad) ToBytes() ([]byte, error) {
-	content, err := json.Marshal(this)
+// ToBytes 将发送内容转换成 []bytes
+func (py *PayLoad) ToBytes() ([]byte, error) {
+	content, err := json.Marshal(py)
 	if err != nil {
 		return nil, err
 	}

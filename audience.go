@@ -1,55 +1,59 @@
 package jpushclient
 
 const (
-	TAG     = "tag"
-	TAG_AND = "tag_and"
-	ALIAS   = "alias"
-	ID      = "registration_id"
-	FILE_ID = "file_id"
+	tag    = "tag"             // 指定标签
+	tagAnd = "tag_and"         // 指定标签‘与’条件
+	alias  = "alias"           // 指定别名
+	id     = "registration_id" // 指定RID
+	fileID = "file_id"         // 指定文件ID
 )
 
+// Audience 可以指定的受众信息
 type Audience struct {
 	Object   interface{}
 	audience map[string][]string
 }
 
-func (this *Audience) All() {
-	this.Object = "all"
+// All 设定推送目标为所有人
+func (ad *Audience) All() {
+	ad.Object = "all"
 }
 
-func (this *Audience) SetID(ids []string) {
-	this.set(ID, ids)
+// SetID 设定推送ID
+func (ad *Audience) SetID(ids []string) {
+	ad.set(id, ids)
 }
 
-func (this *Audience) SetTag(tags []string) {
-	this.set(TAG, tags)
+// SetTag 设定推送标签
+func (ad *Audience) SetTag(tags []string) {
+	ad.set(tag, tags)
 }
 
-func (this *Audience) SetTagAnd(tags []string) {
-	this.set(TAG_AND, tags)
+// SetTagAnd 设定标签‘与’条件
+func (ad *Audience) SetTagAnd(tags []string) {
+	ad.set(tagAnd, tags)
 }
 
-func (this *Audience) SetAlias(alias []string) {
-	this.set(ALIAS, alias)
+// SetAlias 设定推送别名
+func (ad *Audience) SetAlias(aliases []string) {
+	ad.set(alias, aliases)
 }
 
-func (this *Audience) SetFile(fileID string) {
-	this.Object = map[string]interface{}{
+// SetFile 设定推送文件名
+func (ad *Audience) SetFile(fileID string) {
+	ad.Object = map[string]interface{}{
 		"file": map[string]string{
 			"file_id": fileID,
 		},
 	}
 }
 
-func (this *Audience) set(key string, v []string) {
-	if this.Object == nil {
-		this.audience = map[string][]string{key: v}
-		this.Object = this.audience
+// set 为推送受众设定字段值
+func (ad *Audience) set(key string, v []string) {
+	if ad.Object == nil {
+		ad.audience = map[string][]string{key: v}
+		ad.Object = ad.audience
 	}
 
-	//v, ok = this.audience[key]
-	//if ok {
-	//	return
-	//}
-	this.audience[key] = v
+	ad.audience[key] = v
 }

@@ -5,25 +5,28 @@ import (
 )
 
 const (
-	IOS      = "ios"
-	ANDROID  = "android"
-	WINPHONE = "winphone"
+	ios      = "ios"
+	android  = "android"
+	winphone = "winphone"
 )
 
+// Platform 推送平台
 type Platform struct {
 	Os     interface{}
 	osArry []string
 }
 
-func (this *Platform) All() {
-	this.Os = "all"
+// All 指定为全平台推送
+func (pf *Platform) All() {
+	pf.Os = "all"
 }
 
-func (this *Platform) Add(os string) error {
-	if this.Os == nil {
-		this.osArry = make([]string, 0, 3)
+// Add 增加推送系统
+func (pf *Platform) Add(os string) error {
+	if pf.Os == nil {
+		pf.osArry = make([]string, 0, 3)
 	} else {
-		switch this.Os.(type) {
+		switch pf.Os.(type) {
 		case string:
 			panic("platform is all")
 		default:
@@ -31,20 +34,20 @@ func (this *Platform) Add(os string) error {
 	}
 
 	//判断是否重复
-	for _, value := range this.osArry {
+	for _, value := range pf.osArry {
 		if os == value {
 			return nil
 		}
 	}
 
 	switch os {
-	case IOS:
+	case ios:
 		fallthrough
-	case ANDROID:
+	case android:
 		fallthrough
-	case WINPHONE:
-		this.osArry = append(this.osArry, os)
-		this.Os = this.osArry
+	case winphone:
+		pf.osArry = append(pf.osArry, os)
+		pf.Os = pf.osArry
 	default:
 		return errors.New("unknow platform")
 	}
@@ -52,14 +55,17 @@ func (this *Platform) Add(os string) error {
 	return nil
 }
 
-func (this *Platform) AddIOS() {
-	this.Add(IOS)
+// AddIOS 增加 IOS 平台推送
+func (pf *Platform) AddIOS() {
+	pf.Add(ios)
 }
 
-func (this *Platform) AddAndrid() {
-	this.Add(ANDROID)
+// AddAndrid 增加 Android 平台推送
+func (pf *Platform) AddAndrid() {
+	pf.Add(android)
 }
 
-func (this *Platform) AddWinphone() {
-	this.Add(WINPHONE)
+// AddWinphone 增加 winphone 平台推送
+func (pf *Platform) AddWinphone() {
+	pf.Add(winphone)
 }

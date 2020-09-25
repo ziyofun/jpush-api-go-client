@@ -1,20 +1,6 @@
 package jpushclient
 
-// "notification_3rd": {
-// 	"content": "Hi,JPush",
-// 	"title": "msg",
-// 	"channel_id": "channel001",
-// 	"uri_activity": "cn.jpush.android.ui.OpenClickActivity",
-// 	"uri_action": "cn.jpush.android.intent.CONNECTION"
-// 	"badge_add_num": 1
-// 	"badge_class": "com.test.badge.MainActivity"
-// 	"sound": "sound"
-// 	"extras":{
-// 			"news_id" : 134,
-// 			"my_key" : "a value"
-// 	}
-// }
-
+// Thirdpart 第三方平台
 type Thirdpart struct {
 	Content     string                 `json:"content"`
 	Title       string                 `json:"title,omitempty"`
@@ -27,22 +13,26 @@ type Thirdpart struct {
 	Extras      map[string]interface{} `json:"extras,omitempty"`
 }
 
-func (this *Thirdpart) SetContent(c string) {
-	this.Content = c
+// SetContent 设定内容
+func (tp *Thirdpart) SetContent(c string) {
+	tp.Content = c
 
 }
 
-func (this *Thirdpart) SetTitle(title string) {
-	this.Title = title
+// SetTitle 设定标题
+func (tp *Thirdpart) SetTitle(title string) {
+	tp.Title = title
 }
 
-func (this *Thirdpart) SetURIActivity(t string) {
-	this.URIActivity = t
+// SetURIActivity 设定 uri_activity
+func (tp *Thirdpart) SetURIActivity(t string) {
+	tp.URIActivity = t
 }
 
-func (this *Thirdpart) AddExtras(key string, value interface{}) {
-	if this.Extras == nil {
-		this.Extras = make(map[string]interface{})
+// AddExtras 增加额外字段
+func (tp *Thirdpart) AddExtras(key string, value interface{}) {
+	if tp.Extras == nil {
+		tp.Extras = make(map[string]interface{})
 	}
-	this.Extras[key] = value
+	tp.Extras[key] = value
 }

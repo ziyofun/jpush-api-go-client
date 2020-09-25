@@ -15,24 +15,24 @@ import (
 	"time"
 )
 
-//  Get returns *HttpRequest with GET method.
-func Get(url string) *HttpRequest {
+// Get 返回GET请求实例
+func Get(url string) *HTTPRequest {
 	var req http.Request
 	req.Method = "GET"
 	req.Header = http.Header{}
-	return &HttpRequest{url, &req, map[string]string{}, 60 * time.Second, 60 * time.Second, nil, nil, nil}
+	return &HTTPRequest{url, &req, map[string]string{}, 60 * time.Second, 60 * time.Second, nil, nil, nil}
 }
 
-// Post returns *HttpRequest with POST method.
-func Post(url string) *HttpRequest {
+// Post 返回POST请求实例
+func Post(url string) *HTTPRequest {
 	var req http.Request
 	req.Method = "POST"
 	req.Header = http.Header{}
-	return &HttpRequest{url, &req, map[string]string{}, 60 * time.Second, 60 * time.Second, nil, nil, nil}
+	return &HTTPRequest{url, &req, map[string]string{}, 60 * time.Second, 60 * time.Second, nil, nil, nil}
 }
 
-// HttpRequest provides more useful methods for requesting one url than http.Request.
-type HttpRequest struct {
+// HTTPRequest 定义请求实例结构
+type HTTPRequest struct {
 	url              string
 	req              *http.Request
 	params           map[string]string
@@ -43,28 +43,28 @@ type HttpRequest struct {
 	transport        http.RoundTripper
 }
 
-// SetTimeout sets connect time out and read-write time out for Request.
-func (b *HttpRequest) SetTimeout(connectTimeout, readWriteTimeout time.Duration) *HttpRequest {
+// SetTimeout 设定请求连接和读取超时
+func (b *HTTPRequest) SetTimeout(connectTimeout, readWriteTimeout time.Duration) *HTTPRequest {
 	b.connectTimeout = connectTimeout
 	b.readWriteTimeout = readWriteTimeout
 	return b
 }
 
-// SetTLSClientConfig sets tls connection configurations if visiting https url.
-func (b *HttpRequest) SetTLSClientConfig(config *tls.Config) *HttpRequest {
+// SetTLSClientConfig 设置tls设置如果通过TLS连接
+func (b *HTTPRequest) SetTLSClientConfig(config *tls.Config) *HTTPRequest {
 	b.tlsClientConfig = config
 	return b
 }
 
-// Header add header item string in request.
-func (b *HttpRequest) Header(key, value string) *HttpRequest {
+// Header 增加请求头
+func (b *HTTPRequest) Header(key, value string) *HTTPRequest {
 	b.req.Header.Set(key, value)
 	return b
 }
 
-// Set the protocol version for incoming requests.
+// SetProtocolVersion 设定请求协议版本
 // Client requests always use HTTP/1.1.
-func (b *HttpRequest) SetProtocolVersion(vers string) *HttpRequest {
+func (b *HTTPRequest) SetProtocolVersion(vers string) *HTTPRequest {
 	if len(vers) == 0 {
 		vers = "HTTP/1.1"
 	}
@@ -79,14 +79,14 @@ func (b *HttpRequest) SetProtocolVersion(vers string) *HttpRequest {
 	return b
 }
 
-// SetCookie add cookie into request.
-func (b *HttpRequest) SetCookie(cookie *http.Cookie) *HttpRequest {
+// SetCookie 设定cookie
+func (b *HTTPRequest) SetCookie(cookie *http.Cookie) *HTTPRequest {
 	b.req.Header.Add("Cookie", cookie.String())
 	return b
 }
 
 // Set transport to
-func (b *HttpRequest) SetTransport(transport http.RoundTripper) *HttpRequest {
+func (b *HTTPRequest) SetTransport(transport http.RoundTripper) *HTTPRequest {
 	b.transport = transport
 	return b
 }
@@ -98,21 +98,21 @@ func (b *HttpRequest) SetTransport(transport http.RoundTripper) *HttpRequest {
 // 		u, _ := url.ParseRequestURI("http://127.0.0.1:8118")
 // 		return u, nil
 // 	}
-func (b *HttpRequest) SetProxy(proxy func(*http.Request) (*url.URL, error)) *HttpRequest {
+func (b *HTTPRequest) SetProxy(proxy func(*http.Request) (*url.URL, error)) *HTTPRequest {
 	b.proxy = proxy
 	return b
 }
 
 // Param adds query param in to request.
 // params build query string as ?key1=value1&key2=value2...
-func (b *HttpRequest) Param(key, value string) *HttpRequest {
+func (b *HTTPRequest) Param(key, value string) *HTTPRequest {
 	b.params[key] = value
 	return b
 }
 
 // Body adds request raw body.
 // it supports string and []byte.
-func (b *HttpRequest) Body(data interface{}) *HttpRequest {
+func (b *HTTPRequest) Body(data interface{}) *HTTPRequest {
 	switch t := data.(type) {
 	case string:
 		bf := bytes.NewBufferString(t)
@@ -126,7 +126,7 @@ func (b *HttpRequest) Body(data interface{}) *HttpRequest {
 	return b
 }
 
-func (b *HttpRequest) getResponse() (*http.Response, error) {
+func (b *HTTPRequest) getResponse() (*http.Response, error) {
 	var paramBody string
 	if len(b.params) > 0 {
 		var buf bytes.Buffer
@@ -198,7 +198,7 @@ func (b *HttpRequest) getResponse() (*http.Response, error) {
 
 // String returns the body string in response.
 // it calls Response inner.
-func (b *HttpRequest) String() (string, error) {
+func (b *HTTPRequest) String() (string, error) {
 	data, err := b.Bytes()
 	if err != nil {
 		return "", err
@@ -209,7 +209,7 @@ func (b *HttpRequest) String() (string, error) {
 
 // Bytes returns the body []byte in response.
 // it calls Response inner.
-func (b *HttpRequest) Bytes() ([]byte, error) {
+func (b *HTTPRequest) Bytes() ([]byte, error) {
 	resp, err := b.getResponse()
 	if err != nil {
 		return nil, err
@@ -227,7 +227,7 @@ func (b *HttpRequest) Bytes() ([]byte, error) {
 
 // ToFile saves the body data in response to one file.
 // it calls Response inner.
-func (b *HttpRequest) ToFile(filename string) error {
+func (b *HTTPRequest) ToFile(filename string) error {
 	f, err := os.Create(filename)
 	if err != nil {
 		return err
@@ -251,7 +251,7 @@ func (b *HttpRequest) ToFile(filename string) error {
 
 // ToJson returns the map that marshals from the body bytes as json in response .
 // it calls Response inner.
-func (b *HttpRequest) ToJson(v interface{}) error {
+func (b *HTTPRequest) ToJson(v interface{}) error {
 	data, err := b.Bytes()
 	if err != nil {
 		return err
@@ -265,7 +265,7 @@ func (b *HttpRequest) ToJson(v interface{}) error {
 
 // ToXml returns the map that marshals from the body bytes as xml in response .
 // it calls Response inner.
-func (b *HttpRequest) ToXML(v interface{}) error {
+func (b *HTTPRequest) ToXML(v interface{}) error {
 	data, err := b.Bytes()
 	if err != nil {
 		return err
@@ -278,7 +278,7 @@ func (b *HttpRequest) ToXML(v interface{}) error {
 }
 
 // Response executes request client gets response mannually.
-func (b *HttpRequest) Response() (*http.Response, error) {
+func (b *HTTPRequest) Response() (*http.Response, error) {
 	return b.getResponse()
 }
 

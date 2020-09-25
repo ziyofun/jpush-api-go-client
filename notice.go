@@ -1,12 +1,14 @@
 package jpushclient
 
+// Notice 通知结构
 type Notice struct {
-	Alert    string          `json:"alert,omitempty"`
-	Android  *AndroidNotice  `json:"android,omitempty"`
-	IOS      *IOSNotice      `json:"ios,omitempty"`
-	WINPhone *WinPhoneNotice `json:"winphone,omitempty"`
+	Alert    string          `json:"alert,omitempty"`    // 通知内容
+	Android  *AndroidNotice  `json:"android,omitempty"`  // 安卓通知内容
+	IOS      *IOSNotice      `json:"ios,omitempty"`      // IOS通知内容
+	WINPhone *WinPhoneNotice `json:"winphone,omitempty"` // winphone 通知内容
 }
 
+// AndroidNotice 安卓通知结构
 type AndroidNotice struct {
 	Alert       string                 `json:"alert"`
 	Title       string                 `json:"title,omitempty"`
@@ -17,6 +19,7 @@ type AndroidNotice struct {
 	Extras      map[string]interface{} `json:"extras,omitempty"`
 }
 
+// IOSNotice IOS 通知结构
 type IOSNotice struct {
 	Alert            interface{}            `json:"alert"`
 	Sound            string                 `json:"sound,omitempty"`
@@ -26,6 +29,7 @@ type IOSNotice struct {
 	Extras           map[string]interface{} `json:"extras,omitempty"`
 }
 
+// WinPhoneNotice winphone 通知结构
 type WinPhoneNotice struct {
 	Alert    string                 `json:"alert"`
 	Title    string                 `json:"title,omitempty"`
@@ -33,18 +37,22 @@ type WinPhoneNotice struct {
 	Extras   map[string]interface{} `json:"extras,omitempty"`
 }
 
-func (this *Notice) SetAlert(alert string) {
-	this.Alert = alert
+// SetAlert 设定通知文本
+func (nt *Notice) SetAlert(alert string) {
+	nt.Alert = alert
 }
 
-func (this *Notice) SetAndroidNotice(n *AndroidNotice) {
-	this.Android = n
+// SetAndroidNotice 设定安卓通知
+func (nt *Notice) SetAndroidNotice(n *AndroidNotice) {
+	nt.Android = n
 }
 
-func (this *Notice) SetIOSNotice(n *IOSNotice) {
-	this.IOS = n
+// SetIOSNotice 设定iOS通知
+func (nt *Notice) SetIOSNotice(n *IOSNotice) {
+	nt.IOS = n
 }
 
-func (this *Notice) SetWinPhoneNotice(n *WinPhoneNotice) {
-	this.WINPhone = n
+// SetWinPhoneNotice 设定 winphone 通知
+func (nt *Notice) SetWinPhoneNotice(n *WinPhoneNotice) {
+	nt.WINPhone = n
 }
